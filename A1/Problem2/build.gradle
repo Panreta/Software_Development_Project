@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11  // or VERSION_17, VERSION_21 etc.
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+dependencies {
+    // CRITICAL: Explicitly declare ALL test dependencies
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+
+    // Modern syntax with = assignment
+    testLogging {
+        events = ["started", "passed", "skipped", "failed"]
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+}
+
+// Use modern java extension instead of deprecated JavaPluginConvention
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
